@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 34: At the Shops</title>
+    <style>
+        :root {
+            --primary-color: #00796b; /* Teal from the book */
+            --secondary-color: #f1f8e9;
+            --accent-color: #ff7043;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f7f9fc;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        h1, h2, h3 {
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f5e9;
+        }
+        h1 { text-align: center; font-size: 2.5em; }
+        h2 { font-size: 1.8em; margin-top: 40px; }
+        h3 {
+            font-size: 1.4em;
+            color: #004d40;
+            margin-top: 30px;
+            background-color: #e8f5e9;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        h3 .icon { margin-right: 12px; font-size: 1.5em; }
+        .exercise {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .exercise-item { margin-bottom: 15px; font-size: 1.1em; }
+        .choice-btn {
+            padding: 5px 12px; margin: 0 5px; border: 2px solid #ccc;
+            border-radius: 20px; cursor: pointer; background-color: #f5f5f5; transition: all 0.2s;
+        }
+        .choice-btn:hover { background-color: #e0e0e0; }
+        .choice-btn.correct { background-color: #c8e6c9; border-color: #4caf50; font-weight: bold; }
+        .choice-btn.incorrect { background-color: #ffcdd2; border-color: #f44336; text-decoration: line-through; }
+        .choice-btn:disabled { cursor: default; opacity: 0.8; }
+        .reset-btn {
+            display: inline-block; margin-top: 15px; padding: 8px 16px; background-color: #6c757d;
+            color: white; border: none; border-radius: 5px; cursor: pointer;
+        }
+        .reset-btn:hover { background-color: #5a6268; }
+        
+        /* 34.3 - Drag and Drop */
+        .word-bank { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; padding: 10px; background: #eef; border-radius: 5px; }
+        .draggable { padding: 8px 15px; background: #fff; border: 1px solid #ccc; border-radius: 5px; cursor: grab; }
+        .drop-zone { min-height: 50px; border: 2px dashed #ccc; padding: 10px; margin-top: 10px; border-radius: 5px; background: #f9f9f9; }
+        .drop-zone.over { border-style: solid; background: #e8f5e9; }
+        .feedback { font-weight: bold; margin-left: 10px; }
+        .feedback.correct { color: #4caf50; }
+        .feedback.incorrect { color: #f44336; }
+
+        /* 34.4 - Read Messages */
+        .message-container { background-color: #e5ddd5; padding: 20px; border-radius: 10px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+        .message-box { max-width: 80%; padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; clear: both; }
+        .selma { background-color: #fff; float: left; }
+        .jack { background-color: #fff; float: left; }
+        .helena { background-color: #dcf8c6; float: right; }
+        .message-box strong { color: #075e54; }
+        .adj { cursor: pointer; text-decoration: underline dotted; }
+        .adj.found { background-color: #fff9c4; border-radius: 3px; text-decoration: none; }
+        #adj-counter { font-weight: bold; }
+
+        /* 34.7 - Match Phrases */
+        .match-item { display: flex; align-items: center; justify-content: space-between; max-width: 400px; margin-bottom: 10px; }
+        .match-item select { padding: 8px; border-radius: 5px; border: 2px solid #ccc; font-size: 1em; }
+        .match-item select.correct { border-color: #4caf50; }
+        .match-item select.incorrect { border-color: #f44336; }
+
+        /* 34.10 - Sentence Builder */
+        #sentence-builder { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: var(--secondary-color); padding: 20px; border-radius: 8px; }
+        #sentence-builder select { padding: 8px; font-size: 1em; border-radius: 5px; border: 1px solid #ccc; }
+        #sentence-output { margin-top: 15px; padding: 15px; background: #fff; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1.2em; font-weight: 500; min-height: 25px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Unit 34: At the Shops</h1>
+
+    <!-- 34.1 & 34.2 -->
+    <h2>Shopping Verbs</h2>
+    <h3><span class="icon">✍️</span> 34.2 Cross out the incorrect word in each sentence</h3>
+    <div class="exercise" id="exercise-verbs">
+        <p>Click the correct verb to complete each sentence.</p>
+        <div class="exercise-item">1. Hannah <button class="choice-btn">choose</button> / <button class="choice-btn" data-correct="true">chooses</button> a yellow skirt.</div>
+        <div class="exercise-item">2. Elliot and Ruby <button class="choice-btn" data-correct="true">buy</button> / <button class="choice-btn">buys</button> a new couch.</div>
+        <div class="exercise-item">3. Sue <button class="choice-btn">own</button> / <button class="choice-btn" data-correct="true">owns</button> an old winter coat.</div>
+        <div class="exercise-item">4. Jess's dad <button class="choice-btn">buy</button> / <button class="choice-btn" data-correct="true">buys</button> her a new bike.</div>
+        <div class="exercise-item">5. Chris and Lisa <button class="choice-btn" data-correct="true">own</button> / <button class="choice-btn">owns</button> a black sports car.</div>
+        <div class="exercise-item">6. Gayle and Mike <button class="choice-btn">sell</button> / <button class="choice-btn" data-correct="true">sells</button> shoes at the market.</div>
+        <div class="exercise-item">7. Mia <button class="choice-btn">choose</button> / <button class="choice-btn" data-correct="true">chooses</button> her red shoes.</div>
+        <div class="exercise-item">8. The shoes <button class="choice-btn" data-correct="true">fit</button> / <button class="choice-btn">fits</button> me.</div>
+        <button class="reset-btn" onclick="resetExercise('exercise-verbs')">Reset</button>
+    </div>
+
+    <!-- 34.3 -->
+    <h2>Adjective Order</h2>
+    <h3><span class="icon">🔄</span> 34.3 Rewrite the sentences, putting the words in the correct order</h3>
+    <div class="exercise" id="exercise-order">
+        <p>Drag the words from the bank into the box to form a correct sentence.</p>
+        <!-- Sentence 1 -->
+        <div class="exercise-item" data-answer="they choose expensive blue sweaters">
+            <div class="word-bank">
+                <div class="draggable">sweaters.</div><div class="draggable">expensive</div><div class="draggable">blue</div><div class="draggable">choose</div><div class="draggable">They</div>
+            </div>
+            <div class="drop-zone"></div>
+            <button class="check-btn">Check</button><span class="feedback"></span>
+        </div>
+        <!-- Sentence 2 -->
+        <div class="exercise-item" data-answer="judith has some old brown hats">
+            <div class="word-bank">
+                <div class="draggable">hats.</div><div class="draggable">has</div><div class="draggable">some</div><div class="draggable">brown</div><div class="draggable">old</div><div class="draggable">Judith</div>
+            </div>
+            <div class="drop-zone"></div>
+            <button class="check-btn">Check</button><span class="feedback"></span>
+        </div>
+        <!-- Sentence 3 -->
+        <div class="exercise-item" data-answer="this shop sells short red pants">
+            <div class="word-bank">
+                <div class="draggable">pants.</div><div class="draggable">sells</div><div class="draggable">This</div><div class="draggable">shop</div><div class="draggable">short</div><div class="draggable">red</div>
+            </div>
+            <div class="drop-zone"></div>
+            <button class="check-btn">Check</button><span class="feedback"></span>
+        </div>
+        <button class="reset-btn" onclick="resetExercise('exercise-order')">Reset All</button>
+    </div>
+
+    <!-- 34.4 & 34.5 -->
+    <h2>Reading and Listening Comprehension</h2>
+    <h3><span class="icon">📖</span> 34.4 Read the messages and circle 12 adjectives</h3>
+    <div class="exercise" id="exercise-adjectives">
+        <p>Click on the 12 adjectives in the messages below. Found: <span id="adj-counter">0</span> / 12</p>
+        <div class="message-container">
+            <div class="message-box selma"><strong>Selma Wood</strong><br>Hi Jack. I'm in the <span class="adj">new</span> store in town. They have some <span class="adj">cheap</span> sneakers here. Do you still want some <span class="adj">white</span> sneakers? Come and meet me!</div>
+            <div class="message-box jack"><strong>Jack Wood</strong><br>Selma, there's a <span class="adj">long</span> <span class="adj">black</span> skirt in Benedict's. Mom's <span class="adj">black</span> skirt is <span class="adj">old</span>. Do you want to buy her a <span class="adj">new</span> one for her birthday? It's <span class="adj">expensive</span> but we can pay for it together.</div>
+            <div class="message-box helena"><strong>Helena Wood</strong><br>WOW! <span class="adj">Cheap</span> <span class="adj">red</span> sweaters in Shady's on Park Street. They have <span class="adj">long</span> ones in your size, Selma. Come now!</div>
+        </div>
+        <button class="reset-btn" onclick="resetExercise('exercise-adjectives')">Reset</button>
+    </div>
+
+    <h3><span class="icon">🎧</span> 34.5 Listen to the audio and answer the questions</h3>
+    <div class="exercise" id="exercise-listen1">
+        <p>Choose the best answer for each question.</p>
+        <div class="exercise-item">1. What type of dress does Marie buy?
+            <div><label><input type="radio" name="q1" value="short"> short</label></div>
+            <div><label><input type="radio" name="q1" value="long" data-correct="true"> long</label></div>
+        </div>
+        <div class="exercise-item">2. What does Ben want?
+            <div><label><input type="radio" name="q2" value="black shoes" data-correct="true"> black shoes</label></div>
+            <div><label><input type="radio" name="q2" value="new t-shirt"> a new t-shirt</label></div>
+        </div>
+        <div class="exercise-item">3. What does Gemma want?
+            <div><label><input type="radio" name="q3" value="cheap shirt"> a cheap shirt</label></div>
+            <div><label><input type="radio" name="q3" value="cheap skirt" data-correct="true"> a cheap skirt</label></div>
+        </div>
+        <div class="exercise-item">4. Which coat does Joe buy?
+            <div><label><input type="radio" name="q4" value="blue coat" data-correct="true"> a blue coat</label></div>
+            <div><label><input type="radio" name="q4" value="black coat"> a black coat</label></div>
+        </div>
+        <button class="check-btn">Check Answers</button>
+        <button class="reset-btn" onclick="resetExercise('exercise-listen1')">Reset</button>
+    </div>
+
+    <!-- 34.6, 34.7, 34.8 -->
+    <h2>Using "too" and "enough" with Adjectives</h2>
+    <h3><span class="icon">🤝</span> 34.7 Match the phrases that mean the same</h3>
+    <div class="exercise" id="exercise-match">
+        <p>Choose the matching phrase from the dropdown menu.</p>
+        <div class="match-item"><span>1. not expensive enough</span> → <select data-answer="too cheap"><option>-- select --</option><option>too small</option><option>too cheap</option></select></div>
+        <div class="match-item"><span>2. not cheap enough</span> → <select data-answer="too expensive"><option>-- select --</option><option>too expensive</option><option>too short</option></select></div>
+        <div class="match-item"><span>3. not short enough</span> → <select data-answer="too long"><option>-- select --</option><option>too long</option><option>too big</option></select></div>
+        <div class="match-item"><span>4. not long enough</span> → <select data-answer="too short"><option>-- select --</option><option>too short</option><option>too new</option></select></div>
+        <div class="match-item"><span>5. not new enough</span> → <select data-answer="too old"><option>-- select --</option><option>too old</option><option>too small</option></select></div>
+        <div class="match-item"><span>6. not old enough</span> → <select data-answer="too new"><option>-- select --</option><option>too new</option><option>too big</option></select></div>
+        <div class="match-item"><span>7. not small enough</span> → <select data-answer="too big"><option>-- select --</option><option>too big</option><option>too cheap</option></select></div>
+        <button class="check-btn">Check Matches</button>
+        <button class="reset-btn" onclick="resetExercise('exercise-match')">Reset</button>
+    </div>
+
+    <h3><span class="icon">✍️</span> 34.8 Fill in the gaps using the phrases in the panel</h3>
+    <div class="exercise" id="exercise-fill">
+        <div style="background:#e3f2fd; padding:10px; border-radius:5px; text-align:center; margin-bottom:20px;">
+            <strong>Word Panel:</strong> too big, too long, too short, too small, too big
+        </div>
+        <div class="exercise-item">1. Jim's pants are <input type="text" data-answer="too short">.</div>
+        <div class="exercise-item">2. Sam's dress is <input type="text" data-answer="too small">.</div>
+        <div class="exercise-item">3. Molly's sweater is <input type="text" data-answer="too big">.</div>
+        <div class="exercise-item">4. Helen's red hat is <input type="text" data-answer="too big">.</div>
+        <div class="exercise-item">5. Lili's shoes are <input type="text" data-answer="too long">.</div>
+        <button class="check-btn">Check Answers</button>
+        <button class="reset-btn" onclick="resetExercise('exercise-fill')">Reset</button>
+    </div>
+    
+    <!-- 34.10 -->
+    <h2>Sentence Building</h2>
+    <h3><span class="icon">🏗️</span> 34.10 Use the chart to create 12 correct sentences</h3>
+    <div class="exercise">
+        <p>Choose one word from each category to build a correct sentence.</p>
+        <div id="sentence-builder">
+            <select id="sb-determiner"><option>These</option><option>Those</option><option>My</option></select>
+            <select id="sb-adjective"><option>black</option><option>blue</option><option>expensive</option><option>cheap</option></select>
+            <select id="sb-noun"><option>pants</option><option>dress</option><option>shirt</option><option>shoes</option></select>
+            <select id="sb-verb"><option>are</option><option>is</option></select>
+            <select id="sb-size"><option>too big.</option><option>big enough.</option><option>too small.</option><option>too short.</option><option>too long.</option></select>
+        </div>
+        <div id="sentence-output">These black pants are too big.</div>
+        <button class="reset-btn" id="speak-btn">Say it out loud 🔊</button>
+    </div>
+
+</div>
+
+<script>
+// --- General Functions ---
+function resetExercise(exerciseId) {
+    const exercise = document.getElementById(exerciseId);
+    // Reset buttons
+    exercise.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('correct', 'incorrect');
+    });
+    // Reset drag and drop
+    exercise.querySelectorAll('.drop-zone').forEach(zone => zone.innerHTML = '');
+    exercise.querySelectorAll('.draggable').forEach(word => word.style.display = 'inline-block');
+    exercise.querySelectorAll('.feedback').forEach(fb => {
+        fb.textContent = '';
+        fb.classList.remove('correct', 'incorrect');
+    });
+    // Reset adjectives
+    exercise.querySelectorAll('.adj.found').forEach(adj => adj.classList.remove('found'));
+    const counter = document.getElementById('adj-counter');
+    if (counter) counter.textContent = '0';
+    // Reset radio/checkbox quizzes
+    exercise.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.parentElement.style.color = '';
+    });
+    // Reset matching selects
+    exercise.querySelectorAll('select').forEach(select => {
+        select.selectedIndex = 0;
+        select.className = '';
+    });
+    // Reset fill-in-the-blanks
+    exercise.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.className = '';
+    });
+}
+
+// --- Exercise 34.2 & others with choice-btn ---
+document.querySelectorAll('.exercise').forEach(exercise => {
+    exercise.addEventListener('click', event => {
+        const target = event.target;
+        if (target.classList.contains('choice-btn')) {
+            const parent = target.parentElement;
+            const buttons = parent.querySelectorAll('.choice-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.dataset.correct) {
+                    btn.classList.add('correct');
+                }
+            });
+            if (!target.dataset.correct) {
+                target.classList.add('incorrect');
+            }
+        }
+    });
+});
+
+// --- Exercise 34.3: Drag and Drop ---
+const draggables = document.querySelectorAll('.draggable');
+const dropZones = document.querySelectorAll('.drop-zone');
+
+draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging');
+    });
+    draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging');
+    });
+});
+
+dropZones.forEach(zone => {
+    zone.addEventListener('dragover', e => {
+        e.preventDefault();
+        zone.classList.add('over');
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+    zone.addEventListener('drop', e => {
+        e.preventDefault();
+        const draggable = document.querySelector('.dragging');
+        if (draggable) {
+            zone.appendChild(draggable);
+            draggable.style.cursor = 'default';
+        }
+        zone.classList.remove('over');
+    });
+});
+
+document.querySelectorAll('#exercise-order .check-btn').forEach(button => {
+    button.addEventListener('click', e => {
+        const item = e.target.closest('.exercise-item');
+        const dropZone = item.querySelector('.drop-zone');
+        const feedback = item.querySelector('.feedback');
+        const words = Array.from(dropZone.children).map(child => child.textContent.replace('.', ''));
+        const sentence = words.join(' ').toLowerCase();
+        const correctAnswer = item.dataset.answer;
+
+        if (sentence === correctAnswer) {
+            feedback.textContent = 'Correct!';
+            feedback.className = 'feedback correct';
+        } else {
+            feedback.textContent = 'Try again.';
+            feedback.className = 'feedback incorrect';
+        }
+    });
+});
+
+// --- Exercise 34.4: Find Adjectives ---
+const adjContainer = document.getElementById('exercise-adjectives');
+const adjCounter = document.getElementById('adj-counter');
+adjContainer.addEventListener('click', e => {
+    if (e.target.classList.contains('adj')) {
+        e.target.classList.toggle('found');
+        const foundCount = adjContainer.querySelectorAll('.adj.found').length;
+        adjCounter.textContent = foundCount;
+        if (foundCount === 12) {
+            adjCounter.textContent += ' - Well done!';
+        }
+    }
+});
+
+// --- Exercise 34.5 & 34.8 & 34.7: Check Button Logic ---
+document.querySelectorAll('.check-btn').forEach(button => {
+    button.addEventListener('click', e => {
+        const exercise = e.target.closest('.exercise');
+        // Radio button quiz
+        exercise.querySelectorAll('input[type="radio"]').forEach(radio => {
+            const isCorrect = radio.checked && radio.dataset.correct;
+            const isWrong = radio.checked && !radio.dataset.correct;
+            radio.parentElement.style.color = isCorrect ? 'green' : (isWrong ? 'red' : '');
+        });
+        // Matching quiz
+        exercise.querySelectorAll('select').forEach(select => {
+            select.className = (select.value === select.dataset.answer) ? 'correct' : 'incorrect';
+        });
+        // Fill in the blanks
+        exercise.querySelectorAll('input[type="text"]').forEach(input => {
+            const answer = input.value.trim().toLowerCase();
+            input.className = (answer === input.dataset.answer) ? 'correct' : 'incorrect';
+        });
+    });
+});
+
+// --- Exercise 34.10: Sentence Builder ---
+const sentenceBuilder = document.getElementById('sentence-builder');
+const sentenceOutput = document.getElementById('sentence-output');
+const speakBtn = document.getElementById('speak-btn');
+
+function updateSentence() {
+    const parts = [
+        document.getElementById('sb-determiner').value,
+        document.getElementById('sb-adjective').value,
+        document.getElementById('sb-noun').value,
+        document.getElementById('sb-verb').value,
+        document.getElementById('sb-size').value,
+    ];
+    sentenceOutput.textContent = parts.join(' ');
+}
+
+sentenceBuilder.addEventListener('change', updateSentence);
+
+speakBtn.addEventListener('click', () => {
+    const textToSpeak = sentenceOutput.textContent;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'en-US';
+    window.speechSynthesis.speak(utterance);
+});
+
+</script>
+
+</body>
+</html>

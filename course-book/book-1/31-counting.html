@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tự học Ngữ pháp: Danh từ Đếm được & Không đếm được</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            border-bottom-color: #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .content-page {
+            display: none;
+        }
+        .content-page.active {
+            display: block;
+        }
+        .exercise-box {
+            background-color: #eef2ff;
+            border-left: 5px solid #6366f1;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .key-language-box {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .input-gap {
+            border: none;
+            border-bottom: 2px solid #9ca3af;
+            background: transparent;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .input-gap:focus {
+            border-bottom-color: #4f46e5;
+        }
+        .input-gap.correct {
+            border-bottom-color: #22c55e;
+            color: #166534;
+        }
+        .input-gap.incorrect {
+            border-bottom-color: #ef4444;
+            color: #991b1b;
+        }
+        .feedback {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+        .feedback.correct {
+            color: #22c55e;
+        }
+        .feedback.incorrect {
+            color: #ef4444;
+        }
+        .option-btn {
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            background-color: #e0e7ff;
+        }
+        .option-btn.selected.correct {
+            background-color: #dcfce7;
+            color: #166534;
+            border-color: #22c55e;
+            text-decoration: line-through;
+        }
+        .option-btn.selected.incorrect-choice {
+             background-color: #fee2e2;
+            color: #991b1b;
+            border-color: #ef4444;
+        }
+        .option-btn.correct-answer {
+             background-color: #dcfce7;
+            color: #166534;
+            border-color: #22c55e;
+        }
+        .correct-word {
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+        <header class="bg-indigo-600 text-white p-6">
+            <h1 class="text-2xl md:text-3xl font-bold">Bài học Tiếng Anh: Counting</h1>
+            <p class="mt-1 text-indigo-200">Học về danh từ đếm được, không đếm được, số lượng và câu hỏi.</p>
+        </header>
+
+        <nav class="border-b border-gray-200">
+            <div class="flex flex-wrap -mb-px px-4" id="tab-container">
+                <button onclick="showPage('page1')" class="tab-button active text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-4 border-b-2 font-medium text-sm md:text-base">1. Countable & Uncountable</button>
+                <button onclick="showPage('page2')" class="tab-button text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-4 border-b-2 font-medium text-sm md:text-base">2. Negatives & Questions</button>
+                <button onclick="showPage('page3')" class="tab-button text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-4 border-b-2 font-medium text-sm md:text-base">3. Making Countable</button>
+                <button onclick="showPage('page4')" class="tab-button text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-4 border-b-2 font-medium text-sm md:text-base">4. Quantities</button>
+            </div>
+        </nav>
+
+        <main class="p-6 md:p-8">
+            <!-- Page 1: Countable and Uncountable Nouns -->
+            <div id="page1" class="content-page active">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">31.1 KEY LANGUAGE: COUNTABLE AND UNCOUNTABLE NOUNS</h2>
+                <div class="key-language-box">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-bold text-purple-700 mb-2">COUNTABLE NOUNS</h3>
+                            <p>There is <span class="font-bold">an egg</span>. 🥚</p>
+                            <p>There are <span class="font-bold">four eggs</span>. 🥚🥚🥚🥚</p>
+                            <p>There are <span class="font-bold">some eggs</span>. 🥚📦</p>
+                            <p class="text-sm text-gray-600 mt-2">Dùng "some" khi có nhiều thứ mà bạn không thể đếm dễ dàng.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-purple-700 mb-2">UNCOUNTABLE NOUNS</h3>
+                            <p>There is <span class="font-bold">some rice</span>. 🍚</p>
+                            <p class="text-sm text-gray-600 mt-2">Luôn dùng "some" với danh từ không đếm được, không dùng "a," "an," hay số đếm.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">31.3 CROSS OUT THE INCORRECT WORD IN EACH SENTENCE</h3>
+                    <div class="space-y-4" id="exercise1">
+                        <p>Michael has <span class="option-btn" data-correct="some">two</span> / <span class="option-btn correct-word" data-correct="some">some</span> milk. <span class="feedback"></span></p>
+                        <p>1. Jake has <span class="option-btn correct-word" data-correct="an">an</span> / <span class="option-btn" data-correct="an">some</span> apple. <span class="feedback"></span></p>
+                        <p>2. There is <span class="option-btn" data-correct="some">a</span> / <span class="option-btn correct-word" data-correct="some">some</span> coffee. <span class="feedback"></span></p>
+                        <p>3. Reena eats <span class="option-btn" data-correct="some">a</span> / <span class="option-btn correct-word" data-correct="some">some</span> spaghetti. <span class="feedback"></span></p>
+                        <p>4. There are <span class="option-btn correct-word" data-correct="two">two</span> / <span class="option-btn" data-correct="two">some</span> eggs. <span class="feedback"></span></p>
+                        <p>5. I've got <span class="option-btn" data-correct="some">a</span> / <span class="option-btn correct-word" data-correct="some">some</span> bananas. <span class="feedback"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 2: Negatives and Questions -->
+            <div id="page2" class="content-page">
+                 <h2 class="text-xl font-semibold text-gray-800 mb-4">31.4 KEY LANGUAGE: NEGATIVES AND QUESTIONS</h2>
+                 <div class="key-language-box">
+                    <p class="mb-4">Đối với cả danh từ đếm được và không đếm được, hãy dùng "any" trong câu phủ định và câu hỏi.</p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-bold text-purple-700 mb-2">COUNTABLE NOUNS</h3>
+                            <p>There are <span class="font-bold">some</span> eggs.</p>
+                            <p>There aren't <span class="font-bold">any</span> eggs.</p>
+                            <p>Are there <span class="font-bold">any</span> eggs?</p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-purple-700 mb-2">UNCOUNTABLE NOUNS</h3>
+                            <p>There is <span class="font-bold">some</span> rice.</p>
+                            <p>There isn't <span class="font-bold">any</span> rice.</p>
+                            <p>Is there <span class="font-bold">any</span> rice?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="exercise-box">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">31.5 FILL IN THE GAPS WITH STATEMENTS AND QUESTIONS</h3>
+                    <div class="space-y-6" id="exercise2">
+                         <p><span class="font-bold">Ví dụ:</span> Are there any bananas? <span class="font-bold">There are some bananas.</span> <span class="font-bold">There aren't any bananas.</span></p>
+                        
+                        <div data-answers='["There is some milk", "There isn&apos;t any milk"]' class="flex flex-wrap items-center gap-2">
+                            <span>1. Is there any milk?</span>
+                            <input type="text" class="input-gap w-48" placeholder="positive statement">.
+                            <input type="text" class="input-gap w-48" placeholder="negative statement">.
+                            <span class="feedback"></span>
+                        </div>
+
+                        <div data-answers='["Is there any chocolate", "There isn&apos;t any chocolate"]' class="flex flex-wrap items-center gap-2">
+                             <span>2.</span> <input type="text" class="input-gap w-48" placeholder="question">?
+                             <span>There is some chocolate.</span>
+                             <input type="text" class="input-gap w-48" placeholder="negative statement">.
+                             <span class="feedback"></span>
+                        </div>
+
+                        <div data-answers='["Are there any apples", "There are some apples"]' class="flex flex-wrap items-center gap-2">
+                            <span>3.</span> <input type="text" class="input-gap w-48" placeholder="question">?
+                            <input type="text" class="input-gap w-48" placeholder="positive statement">.
+                            <span>There aren't any apples.</span>
+                            <span class="feedback"></span>
+                        </div>
+                    </div>
+                     <button onclick="checkFillInTheBlanks('exercise2')" class="mt-6 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+                </div>
+            </div>
+            
+            <!-- Page 3: Making Uncountable Things Countable -->
+            <div id="page3" class="content-page">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">31.8 KEY LANGUAGE: MAKING UNCOUNTABLE THINGS COUNTABLE</h2>
+                <div class="key-language-box">
+                    <p class="mb-4">Danh từ không đếm được có thể trở thành đếm được nếu chúng được đặt trong các vật chứa.</p>
+                    <div class="space-y-2">
+                        <p>some sugar ➔ a <span class="font-bold">bag of</span> sugar</p>
+                        <p>some water ➔ three <span class="font-bold">bottles of</span> water</p>
+                        <p>some cereal ➔ a <span class="font-bold">bowl of</span> cereal</p>
+                    </div>
+                </div>
+                 <div class="exercise-box">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">31.9 FILL IN THE GAPS TO COMPLETE THE SENTENCES</h3>
+                    <div id="exercise3">
+                        <p class="mb-4">There is <span class="font-bold">a jar of</span> coffee. 🥫</p>
+                        <div data-answers='["a bag of", "a cup of", "a carton of", ["two bowls of", "two plates of"], "two glasses of"]' class="grid md:grid-cols-2 gap-x-8 gap-y-4">
+                            <p>1. There is <input type="text" class="input-gap w-24"> flour. 🛍️<span class="feedback"></span></p>
+                            <p>2. There is <input type="text" class="input-gap w-24"> coffee. ☕<span class="feedback"></span></p>
+                            <p>3. There is <input type="text" class="input-gap w-24"> juice. 🧃<span class="feedback"></span></p>
+                            <p>4. There are <input type="text" class="input-gap w-28"> spaghetti. 🥣🥣<span class="feedback"></span></p>
+                            <p>5. There are <input type="text" class="input-gap w-28"> milk. 🥛🥛<span class="feedback"></span></p>
+                        </div>
+                    </div>
+                    <button onclick="checkFillInTheBlanks('exercise3')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+                </div>
+            </div>
+
+            <!-- Page 4: Questions about Quantities -->
+            <div id="page4" class="content-page">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">31.10 KEY LANGUAGE: QUESTIONS ABOUT QUANTITIES</h2>
+                 <div class="key-language-box">
+                    <p class="mb-4">Bạn dùng "many" để hỏi về số lượng của danh từ đếm được, và "much" để hỏi về số lượng của danh từ không đếm được.</p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div><p class="text-lg">How <span class="font-bold">many</span> eggs are there?</p></div>
+                        <div><p class="text-lg">How <span class="font-bold">much</span> rice is there?</p></div>
+                    </div>
+                </div>
+                
+                 <div class="exercise-box">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">31.12 FILL IN THE GAPS USING "HOW MUCH" AND "HOW MANY"</h3>
+                    <div id="exercise4">
+                        <p class="mb-4"><span class="font-bold">How much</span> pizza is there? 🍕</p>
+                         <div data-answers='["How many", "How much", "How many", "How many", "How much", "How many", "How much"]' class="space-y-4">
+                            <p>1. <input type="text" class="input-gap w-28"> glasses of juice are there? <span class="feedback"></span></p>
+                            <p>2. <input type="text" class="input-gap w-28"> water is there? <span class="feedback"></span></p>
+                            <p>3. <input type="text" class="input-gap w-28"> potatoes are there? <span class="feedback"></span></p>
+                            <p>4. <input type="text" class="input-gap w-28"> bars of chocolate are there? <span class="feedback"></span></p>
+                            <p>5. <input type="text" class="input-gap w-28"> pasta is there? <span class="feedback"></span></p>
+                            <p>6. <input type="text" class="input-gap w-28"> cartons of juice are there? <span class="feedback"></span></p>
+                            <p>7. <input type="text" class="input-gap w-28"> milk is there? <span class="feedback"></span></p>
+                        </div>
+                    </div>
+                     <button onclick="checkFillInTheBlanks('exercise4')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Function to switch between pages/tabs
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.content-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected page
+            document.getElementById(pageId).classList.add('active');
+            // Activate the corresponding tab button
+            document.querySelector(`.tab-button[onclick="showPage('${pageId}')"]`).classList.add('active');
+        }
+        
+        // --- Exercise 1: Cross out incorrect word ---
+        document.getElementById('exercise1').addEventListener('click', function(e) {
+            if (e.target.classList.contains('option-btn')) {
+                const parent = e.target.parentElement;
+                const feedbackSpan = parent.querySelector('.feedback');
+                const correctAnswer = e.target.dataset.correct;
+
+                // Remove previous selections in the same question
+                parent.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('selected', 'incorrect-choice', 'correct-answer');
+                });
+                
+                e.target.classList.add('selected');
+                
+                // For this exercise, the logic is to select the correct word.
+                if (e.target.textContent.trim() === correctAnswer.trim()) {
+                     e.target.classList.add('correct-answer');
+                     feedbackSpan.textContent = 'Correct!';
+                     feedbackSpan.className = 'feedback correct';
+                } else {
+                    e.target.classList.add('incorrect-choice');
+                    // Find the button that contains the correct word.
+                    // This is slightly complex as there could be two buttons with the same data-correct.
+                    // We select the one intended to be the right word.
+                    const correctBtn = Array.from(parent.querySelectorAll('.option-btn')).find(btn => btn.textContent.trim() === correctAnswer.trim() && btn.classList.contains('correct-word'));
+                    if(correctBtn) {
+                       correctBtn.classList.add('correct-answer');
+                    }
+                     feedbackSpan.textContent = `Correct answer is "${correctAnswer}".`;
+                     feedbackSpan.className = 'feedback incorrect';
+                }
+            }
+        });
+        
+        // --- Generic function to check fill-in-the-blanks exercises ---
+        function checkFillInTheBlanks(exerciseId) {
+            console.log('Checking exercise:', exerciseId);
+            const exerciseContainer = document.getElementById(exerciseId);
+            
+            if (!exerciseContainer) {
+                console.error('Exercise container not found:', exerciseId);
+                return;
+            }
+            
+            // Get all groups of questions/answers within the exercise
+            const questionGroups = exerciseContainer.querySelectorAll('[data-answers]');
+            console.log('Found question groups:', questionGroups.length);
+
+            questionGroups.forEach((group, groupIndex) => {
+                try {
+                    // Parse the answers, which can now contain nested arrays
+                    const answers = JSON.parse(group.dataset.answers);
+                    console.log('Group', groupIndex, 'answers:', answers);
+                    
+                    const inputs = group.querySelectorAll('input.input-gap');
+                    console.log('Group', groupIndex, 'inputs found:', inputs.length);
+                    
+                    // For exercise 2, feedback is per group. For others, it's per input.
+                    const feedbackSpan = group.querySelector('.feedback');
+                    let allCorrectInGroup = true;
+                    
+                    inputs.forEach((input, index) => {
+                        const singleInputFeedback = input.nextElementSibling && input.nextElementSibling.classList.contains('feedback') ? input.nextElementSibling : null;
+                        const correctAnswer = answers[index];
+                        const userAnswer = input.value.trim().toLowerCase().replace(/[.!?]$/, ''); // Remove ending punctuation
+                        let isCorrect = false;
+
+                        console.log('Input', index, 'user answer:', userAnswer, 'correct answer:', correctAnswer);
+
+                        input.classList.remove('correct', 'incorrect');
+                        if(singleInputFeedback) singleInputFeedback.textContent = '';
+                        
+                        // Check if the correct answer is an array (multiple options)
+                        if (Array.isArray(correctAnswer)) {
+                            // If any of the possible answers match, it's correct
+                            if (correctAnswer.map(a => a.toLowerCase().replace(/[.!?]$/, '')).includes(userAnswer)) {
+                                isCorrect = true;
+                            }
+                        } else {
+                            // Standard string comparison - remove punctuation from expected answer too
+                            if (userAnswer === correctAnswer.toLowerCase().replace(/[.!?]$/, '')) {
+                                isCorrect = true;
+                            }
+                        }
+
+                        if (isCorrect) {
+                            input.classList.add('correct');
+                            if (singleInputFeedback) {
+                                singleInputFeedback.textContent = '✓';
+                                singleInputFeedback.className = 'feedback correct';
+                            }
+                        } else {
+                            input.classList.add('incorrect');
+                            allCorrectInGroup = false;
+                            if (singleInputFeedback) {
+                                const answerText = Array.isArray(correctAnswer) ? correctAnswer.join(' / ') : correctAnswer;
+                                singleInputFeedback.textContent = `Correct: ${answerText}`;
+                                singleInputFeedback.className = 'feedback incorrect';
+                            }
+                        }
+                    });
+
+                    // Update group feedback for Exercise 2
+                    if (feedbackSpan && !inputs[0].nextElementSibling?.classList.contains('feedback')) {
+                         if(allCorrectInGroup) {
+                            feedbackSpan.textContent = 'Correct!';
+                            feedbackSpan.className = 'feedback correct';
+                         } else {
+                            feedbackSpan.textContent = 'Check your answers.';
+                            feedbackSpan.className = 'feedback incorrect';
+                         }
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON for group', groupIndex, ':', error);
+                    console.error('Data-answers content:', group.dataset.answers);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

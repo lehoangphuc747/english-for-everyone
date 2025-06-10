@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài học 32: Đo lường (Enough, Too Much, Too Many)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f7f9fc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 950px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        h1, h2, h3 {
+            color: #0d47a1;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e3f2fd;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+            border-bottom: 2px solid #e3f2fd;
+        }
+        h3 {
+            font-size: 1.4em;
+            color: #1565c0;
+            margin-top: 30px;
+            background-color: #eef6ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        h3 .icon {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        .key-language-box {
+            background-color: #f1f8e9;
+            border: 1px solid #c5e1a5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .key-language-box .chef-icon {
+            font-size: 4em;
+            color: #fb8c00;
+        }
+        .key-language-box .dialogue {
+            flex-grow: 1;
+        }
+        .dialogue p {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+        }
+        .dialogue .question {
+            font-weight: bold;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .example-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .example-card .status {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .status.not-enough { color: #c62828; background-color: #ffcdd2; }
+        .status.enough { color: #2e7d32; background-color: #c8e6c9; }
+        .status.too-much, .status.too-many { color: #e65100; background-color: #ffcc80; }
+        .exercise {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .exercise-item {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+        .choice-btn {
+            padding: 5px 12px;
+            margin: 0 5px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            transition: all 0.2s;
+        }
+        .choice-btn:hover { background-color: #e0e0e0; }
+        .choice-btn.correct { background-color: #c8e6c9; border-color: #4caf50; font-weight: bold; }
+        .choice-btn.incorrect { background-color: #ffcdd2; border-color: #f44336; text-decoration: line-through; }
+        .choice-btn:disabled { cursor: default; opacity: 0.7; }
+        .recipe-box {
+            float: right;
+            width: 220px;
+            background: #fffde7;
+            border: 2px dashed #fbc02d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-left: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .recipe-box h4 { margin-top: 0; text-align: center; }
+        .reset-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reset-btn:hover { background-color: #5a6268; }
+        .clearfix::after { content: ""; clear: both; display: table; }
+        .match-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .match-item .item-icon { font-size: 2em; width: 40px; text-align: center; }
+        .match-item select { padding: 8px; border-radius: 5px; border: 2px solid #ccc; font-size: 1em; }
+        .match-item select.correct { border-color: #4caf50; }
+        .match-item select.incorrect { border-color: #f44336; }
+        .feedback-icon { font-size: 1.5em; font-weight: bold; }
+        .feedback-icon.correct { color: #4CAF50; }
+        .feedback-icon.incorrect { color: #f44336; }
+        .checklist { margin-top: 40px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>32 Measuring</h1>
+
+        <!-- ==================== PAGE 1 (COUNTABLE) ==================== -->
+        <h2>Part 1: Countable Nouns (danh từ đếm được)</h2>
+
+        <h3><span class="icon">🔑</span>32.1 KEY LANGUAGE "ENOUGH / TOO MANY"</h3>
+        <div class="key-language-box">
+            <div class="chef-icon">👨‍🍳</div>
+            <div class="dialogue">
+                <p>Use "enough," "not enough," and "too many" to talk about quantities of <strong>countable nouns</strong>.</p>
+                <div class="question">We need four eggs. Do we have enough?</div>
+            </div>
+        </div>
+        <div class="example-grid">
+            <div class="example-card">
+                <div class="status not-enough">We have two eggs. That's not enough.</div>
+                <p>You need four eggs. Two is not enough.</p>
+            </div>
+            <div class="example-card">
+                <div class="status enough">We have four eggs. That's enough.</div>
+                <p>Four eggs is the correct amount: enough.</p>
+            </div>
+            <div class="example-card">
+                <div class="status too-many">We have five eggs. That's too many.</div>
+                <p>Five eggs is more than enough: too many.</p>
+            </div>
+        </div>
+
+        <h3><span class="icon">📖</span>32.3 READ THE RECIPE AND CROSS OUT THE INCORRECT WORDS</h3>
+        <div class="exercise clearfix" id="exercise1">
+            <div class="recipe-box">
+                <h4>FRUIT SALAD RECIPE</h4>
+                <ul>
+                    <li>2 apples</li>
+                    <li>3 bananas</li>
+                    <li>4 oranges</li>
+                    <li>1 pineapple</li>
+                    <li>1 mango</li>
+                </ul>
+            </div>
+            <p>Đọc công thức và <strong>nhấn vào từ đúng</strong> trong mỗi câu.</p>
+            <div class="exercise-item">1. There <button class="choice-btn" data-correct="true">aren't enough</button>/<button class="choice-btn">are too many</button> mangoes.</div>
+            <div class="exercise-item">2. You have <button class="choice-btn" data-correct="true">enough</button>/<button class="choice-btn">too many</button> oranges.</div>
+            <div class="exercise-item">3. There <button class="choice-btn">aren't enough</button>/<button class="choice-btn" data-correct="true">are too many</button> apples.</div>
+            <div class="exercise-item">4. You don't have <button class="choice-btn" data-correct="true">enough</button>/<button class="choice-btn">too many</button> bananas.</div>
+            <button class="reset-btn" onclick="resetExercise('exercise1')">Làm lại</button>
+        </div>
+
+        <!-- ==================== PAGE 2 (UNCOUNTABLE) ==================== -->
+        <h2>Part 2: Uncountable Nouns (danh từ không đếm được)</h2>
+
+        <h3><span class="icon">🔑</span>32.4 KEY LANGUAGE "ENOUGH / TOO MUCH"</h3>
+        <div class="key-language-box" style="background-color: #e3f2fd; border-color: #90caf9;">
+            <div class="chef-icon">👩‍🍳</div>
+            <div class="dialogue">
+                <p>Use "enough," "not enough," and "too much" to talk about quantities of <strong>uncountable nouns</strong>.</p>
+                <div class="question">We need eight ounces of flour. Do we have enough?</div>
+            </div>
+        </div>
+        <div class="example-grid">
+            <div class="example-card">
+                <div class="status not-enough">4oz: not enough flour</div>
+                <p>You need eight ounces of flour. Four is not enough.</p>
+            </div>
+            <div class="example-card">
+                <div class="status enough">8oz: enough flour</div>
+                <p>Eight ounces is the correct amount: enough.</p>
+            </div>
+            <div class="example-card">
+                <div class="status too-much">12oz: too much flour</div>
+                <p>Twelve ounces is more than enough: too much.</p>
+            </div>
+        </div>
+
+        <h3><span class="icon">🎧</span>32.6 LISTEN AND MATCH THE PICTURES TO THE AMOUNTS</h3>
+        <div class="exercise" id="exercise2">
+            <p>Sheila và Vikram đang chuẩn bị làm bánh. <strong>Chọn số lượng đúng</strong> cho mỗi nguyên liệu.</p>
+            <div class="match-item">
+                <span class="item-icon">🥚</span> 1. Eggs
+                <select data-answer="Not enough.">
+                    <option>-- Chọn số lượng --</option>
+                    <option>Too much.</option>
+                    <option>Not enough.</option>
+                    <option>Enough.</option>
+                    <option>Too many.</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+            <div class="match-item">
+                <span class="item-icon">🥄</span> 2. Flour
+                <select data-answer="Too much.">
+                    <option>-- Chọn số lượng --</option>
+                    <option>Too much.</option>
+                    <option>Not enough.</option>
+                    <option>Enough.</option>
+                    <option>Too many.</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+            <div class="match-item">
+                <span class="item-icon">🍫</span> 3. Chocolate
+                <select data-answer="Enough.">
+                    <option>-- Chọn số lượng --</option>
+                    <option>Too much.</option>
+                    <option>Not enough.</option>
+                    <option>Enough.</option>
+                    <option>Too many.</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+            <div class="match-item">
+                <span class="item-icon">🍬</span> 4. Sugar
+                <select data-answer="Too many.">
+                    <option>-- Chọn số lượng --</option>
+                    <option>Too much.</option>
+                    <option>Not enough.</option>
+                    <option>Enough.</option>
+                    <option>Too many.</option>
+                </select>
+                <span class="feedback-icon"></span>
+            </div>
+            <button id="check-match-btn">Kiểm tra</button>
+            <button class="reset-btn" onclick="resetExercise('exercise2')">Làm lại</button>
+        </div>
+
+        <h3><span class="icon">✍️</span>32.7 CROSS OUT THE INCORRECT WORDS IN EACH SENTENCE</h3>
+        <div class="exercise" id="exercise3">
+            <p><strong>Nhấn vào từ đúng</strong> để hoàn thành mỗi câu.</p>
+            <div class="exercise-item">1. They have <button class="choice-btn" data-correct="true">too many</button>/<button class="choice-btn">too much</button> apples.</div>
+            <div class="exercise-item">2. There is <button class="choice-btn">too many</button>/<button class="choice-btn" data-correct="true">too much</button> sugar.</div>
+            <div class="exercise-item">3. They <button class="choice-btn" data-correct="true">don't have</button>/<button class="choice-btn">aren't</button> enough butter.</div>
+            <div class="exercise-item">4. She has <button class="choice-btn" data-correct="true">too many</button>/<button class="choice-btn">too much</button> mangoes.</div>
+            <div class="exercise-item">5. John has too many <button class="choice-btn">egg</button>/<button class="choice-btn" data-correct="true">eggs</button>.</div>
+            <div class="exercise-item">6. There <button class="choice-btn">isn't</button>/<button class="choice-btn" data-correct="true">aren't</button> enough oranges.</div>
+            <div class="exercise-item">7. That is <button class="choice-btn">too many</button>/<button class="choice-btn" data-correct="true">too much</button> flour.</div>
+            <div class="exercise-item">8. There <button class="choice-btn" data-correct="true">is</button>/<button class="choice-btn">are</button> too much sugar in the cake.</div>
+            <button class="reset-btn" onclick="resetExercise('exercise3')">Làm lại</button>
+        </div>
+
+        <div class="checklist">
+            <strong>✅ CHECKLIST:</strong> &nbsp; Measurements ☐ &nbsp; Ingredients and quantities ☐ &nbsp; Talking about amounts ☐
+        </div>
+    </div>
+
+    <script>
+        function handleChoice(event) {
+            const clickedButton = event.target;
+            if (!clickedButton.classList.contains('choice-btn')) return;
+
+            const parent = clickedButton.parentElement;
+            const buttons = parent.querySelectorAll('.choice-btn');
+            const isCorrect = clickedButton.getAttribute('data-correct') === 'true';
+
+            buttons.forEach(button => {
+                button.disabled = true;
+                if (button.getAttribute('data-correct') === 'true') {
+                    button.classList.add('correct');
+                }
+            });
+
+            if (!isCorrect) {
+                clickedButton.classList.add('incorrect');
+            }
+        }
+
+        function checkMatching() {
+            const exercise = document.getElementById('exercise2');
+            const selects = exercise.querySelectorAll('select');
+            selects.forEach(select => {
+                const feedback = select.nextElementSibling;
+                const isCorrect = select.value === select.dataset.answer;
+                select.classList.remove('correct', 'incorrect');
+                feedback.classList.remove('correct', 'incorrect');
+
+                if (select.selectedIndex === 0) {
+                    feedback.textContent = '';
+                    return;
+                }
+
+                if (isCorrect) {
+                    select.classList.add('correct');
+                    feedback.textContent = '✓';
+                    feedback.classList.add('correct');
+                } else {
+                    select.classList.add('incorrect');
+                    feedback.textContent = '✗';
+                    feedback.classList.add('incorrect');
+                }
+            });
+        }
+
+        function resetExercise(exerciseId) {
+            const exerciseElement = document.getElementById(exerciseId);
+            const choiceButtons = exerciseElement.querySelectorAll('.choice-btn');
+            choiceButtons.forEach(button => {
+                button.disabled = false;
+                button.classList.remove('correct', 'incorrect');
+            });
+
+            const selects = exerciseElement.querySelectorAll('select');
+            selects.forEach(select => {
+                select.selectedIndex = 0;
+                select.classList.remove('correct', 'incorrect');
+                select.nextElementSibling.textContent = '';
+            });
+        }
+        
+        document.getElementById('exercise1').addEventListener('click', handleChoice);
+        document.getElementById('exercise3').addEventListener('click', handleChoice);
+        document.getElementById('check-match-btn').addEventListener('click', checkMatching);
+    </script>
+
+</body>
+</html>

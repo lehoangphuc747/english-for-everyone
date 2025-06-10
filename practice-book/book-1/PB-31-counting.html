@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sách Bài Tập Tiếng Anh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .exercise-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .exercise-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #4f46e5;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+         .exercise-title svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        .input-gap {
+            border: none;
+            border-bottom: 2px solid #9ca3af;
+            background: transparent;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+            padding: 0.25rem;
+        }
+        .input-gap:focus {
+            border-bottom-color: #4f46e5;
+        }
+        .input-gap.correct {
+            border-bottom-color: #10b981;
+            color: #059669;
+        }
+        .input-gap.incorrect {
+            border-bottom-color: #ef4444;
+            color: #b91c1c;
+        }
+        .feedback {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+        .feedback.correct { color: #10b981; }
+        .feedback.incorrect { color: #ef4444; }
+
+        .option-btn {
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid #d1d5db;
+            transition: all 0.2s;
+            margin: 0 0.25rem;
+            background-color: white;
+        }
+        .option-btn:hover {
+            background-color: #f3f4f6;
+        }
+        .option-btn.crossed-out {
+            text-decoration: line-through;
+            background-color: #fee2e2;
+            color: #7f1d1d;
+        }
+        .option-btn.correct-answer {
+            background-color: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+            font-weight: 600;
+        }
+        .option-btn.selected {
+            background-color: #ddd6fe;
+            border-color: #7c3aed;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(10, minmax(0, 1fr));
+            gap: 0.5rem;
+            font-family: monospace;
+            font-size: 1.25rem;
+            max-width: 400px;
+            margin: auto;
+        }
+        .word-grid span {
+            text-align: center;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid transparent;
+        }
+        .word-grid span:hover {
+            background-color: #e5e7eb;
+        }
+        .word-grid span.selected {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #1d4ed8;
+        }
+        .word-grid span.found {
+            background-color: #10b981;
+            color: white;
+            border-color: #059669;
+        }
+        .word-grid span.highlight {
+            background-color: #a7f3d0;
+            color: #047857;
+        }
+        .word-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .word-badge.found {
+            background-color: #dcfce7 !important;
+            color: #166534 !important;
+            text-decoration: line-through;
+        }
+        .word-panel {
+            background-color: #f0f9ff;
+            border: 1px solid #bfdbfe;
+        }
+        .word-chip {
+            transition: all 0.3s;
+            cursor: default;
+        }
+        .word-chip.used {
+            background-color: #f3f4f6 !important;
+            color: #9ca3af !important;
+            border-color: #d1d5db !important;
+        }
+        .exercise-item {
+            transition: background-color 0.3s;
+        }
+        .exercise-item.correct {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+        }
+        .exercise-item.incorrect {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="bg-indigo-600 text-white p-6 rounded-t-xl mb-4 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold">Sách Bài Tập: Counting</h1>
+            <p class="mt-1 text-indigo-200">Luyện tập về danh từ đếm được và không đếm được.</p>
+        </header>
+
+        <!-- Exercise 31.1 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                31.1 WRITE THE WORDS FROM THE PANEL
+            </h2>
+            <div id="exercise-31-1" data-answers='{"countable": ["sandwich", "egg", "apple", "burger"], "uncountable": ["water", "coffee", "rice", "juice"]}'>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-semibold text-blue-600 mb-2">COUNTABLE</h3>
+                        <div class="space-y-2">
+                            <p>1. <input type="text" class="input-gap w-32"></p>
+                            <p>2. <input type="text" class="input-gap w-32"></p>
+                            <p>3. <input type="text" class="input-gap w-32"></p>
+                            <p>4. <input type="text" class="input-gap w-32"></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-purple-600 mb-2">UNCOUNTABLE</h3>
+                         <div class="space-y-2">
+                            <p>1. <input type="text" class="input-gap w-32"></p>
+                            <p>2. <input type="text" class="input-gap w-32"></p>
+                            <p>3. <input type="text" class="input-gap w-32"></p>
+                            <p>4. <input type="text" class="input-gap w-32"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-gray-100 rounded-md text-center">
+                    <p class="font-semibold">Word Bank:</p>
+                    <p class="text-gray-600">coffee, water, burger, rice, egg, juice, apple, sandwich</p>
+                </div>
+                <button onclick="checkGrouping('exercise-31-1')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+            </div>
+        </div>
+        
+        <!-- Exercise 31.2 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
+                 31.2 CROSS OUT THE INCORRECT WORD
+            </h2>
+            <div class="space-y-3" id="exercise-31-2">
+                <p>Bob has <span class="option-group" data-correct="some"><span class="option-btn">a</span> / <span class="option-btn">some</span></span> sugar.</p>
+                <p>1. There <span class="option-group" data-correct="is"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> some orange juice.</p>
+                <p>2. Sam has <span class="option-group" data-correct="some"><span class="option-btn">some</span> / <span class="option-btn">three</span></span> milk.</p>
+                <p>3. We have <span class="option-group" data-correct="some"><span class="option-btn">a</span> / <span class="option-btn">some</span></span> salt.</p>
+                <p>4. There <span class="option-group" data-correct="are"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> some apples.</p>
+                <p>5. Rita has <span class="option-group" data-correct="a"><span class="option-btn">a</span> / <span class="option-btn">some</span></span> banana.</p>
+                <p>6. I've got <span class="option-group" data-correct="some"><span class="option-btn">a</span> / <span class="option-btn">some</span></span> eggs.</p>
+            </div>
+             <button onclick="checkCrossOut('exercise-31-2')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+        </div>
+        
+        <!-- Exercise 31.3 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.158 0L10.5 9.75M10.5 13.5L12 15m0 0l1.5-1.5M12 15l-1.5 1.5M10.5 13.5L9 15" /></svg>
+                 31.3 WRITE OUT WHAT EACH IMAGE SHOWS
+            </h2>
+            <div class="space-y-4" id="exercise-31-3" data-answers='["four bananas", "two eggs", "some cheese", "two burgers", ["a bar of chocolate", "a chocolate bar"]]'>
+                <p>🍎 <span class="font-bold">one apple</span></p>
+                <p>1. 🍌🍌🍌🍌 <input class="input-gap w-40"></p>
+                <p>2. 🥚🥚 <input class="input-gap w-40"></p>
+                <p>3. 🧀 <input class="input-gap w-40"></p>
+                <p>4. 🍔🍔 <input class="input-gap w-40"></p>
+                <p>5. 🍫 <input class="input-gap w-40"></p>
+            </div>
+            <button onclick="checkFillInTheBlanks('exercise-31-3')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+        </div>
+
+        <!-- Exercise 31.4 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" /></svg>
+                31.4 FILL IN THE GAPS: SOME & ANY
+            </h2>
+            <div class="mb-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+                <h3 class="font-semibold text-blue-800 mb-2">Key Grammar Rules:</h3>
+                <ul class="text-blue-700 space-y-1 list-disc list-inside">
+                    <li>Use <strong>"some"</strong> in positive (affirmative) sentences.</li>
+                    <li>Use <strong>"any"</strong> in questions (interrogative) and negative sentences.</li>
+                    <li>Use <strong>"is / isn't"</strong> for singular and uncountable nouns (e.g., salt, wine, bread).</li>
+                    <li>Use <strong>"are / aren't"</strong> for plural countable nouns (e.g., apples, burgers, cookies).</li>
+                </ul>
+            </div>
+            
+            <p class="mb-4 text-gray-700">Complete the table below. For each row, fill in the two missing sentence forms.</p>
+            
+            <div class="overflow-x-auto" id="exercise-31-4">
+                <table class="w-full border-collapse border border-gray-300 text-sm">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-300 p-3 text-left font-semibold">Question (?)</th>
+                            <th class="border border-gray-300 p-3 text-left font-semibold">Affirmative (+)</th>
+                            <th class="border border-gray-300 p-3 text-left font-semibold">Negative (-)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-gray-50 font-medium text-gray-600">
+                            <td class="border border-gray-300 p-3">Are there any apples?</td>
+                            <td class="border border-gray-300 p-3">There are some apples.</td>
+                            <td class="border border-gray-300 p-3">There aren't any apples.</td>
+                        </tr>
+                        <tr class="bg-purple-50" data-answers='["There is some salt", "There isn&apos;t any salt"]'>
+                            <td class="border border-gray-300 p-3">1. Is there any salt?</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the affirmative sentence..."></td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                        <tr class="bg-blue-50" data-answers='["Is there any wine", "There isn&apos;t any wine"]'>
+                            <td class="border border-gray-300 p-3">2. <input type="text" class="input-gap w-full" placeholder="Type the question..."></td>
+                            <td class="border border-gray-300 p-3">There is some wine.</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                        <tr class="bg-purple-50" data-answers='["There are some burgers", "There aren&apos;t any burgers"]'>
+                            <td class="border border-gray-300 p-3">3. Are there any burgers?</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the affirmative sentence..."></td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                        <tr class="bg-blue-50" data-answers='["Are there any cookies", "There aren&apos;t any cookies"]'>
+                            <td class="border border-gray-300 p-3">4. <input type="text" class="input-gap w-full" placeholder="Type the question..."></td>
+                            <td class="border border-gray-300 p-3">There are some cookies.</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                        <tr class="bg-purple-50" data-answers='["Are there any pastries", "There are some pastries"]'>
+                            <td class="border border-gray-300 p-3">5. <input type="text" class="input-gap w-full" placeholder="Type the question..."></td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the affirmative sentence..."></td>
+                            <td class="border border-gray-300 p-3">There aren't any pastries.</td>
+                        </tr>
+                        <tr class="bg-blue-50" data-answers='["There is some bread", "There isn&apos;t any bread"]'>
+                            <td class="border border-gray-300 p-3">6. Is there any bread?</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the affirmative sentence..."></td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                        <tr class="bg-purple-50" data-answers='["Is there any rice", "There isn&apos;t any rice"]'>
+                            <td class="border border-gray-300 p-3">7. <input type="text" class="input-gap w-full" placeholder="Type the question..."></td>
+                            <td class="border border-gray-300 p-3">There is some rice.</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                        <tr class="bg-blue-50" data-answers='["Is there any butter", "There is some butter"]'>
+                            <td class="border border-gray-300 p-3">8. <input type="text" class="input-gap w-full" placeholder="Type the question..."></td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the affirmative sentence..."></td>
+                            <td class="border border-gray-300 p-3">There isn't any butter.</td>
+                        </tr>
+                        <tr class="bg-purple-50" data-answers='["There are some pizzas", "There aren&apos;t any pizzas"]'>
+                            <td class="border border-gray-300 p-3">9. Are there any pizzas?</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the affirmative sentence..."></td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                        <tr class="bg-blue-50" data-answers='["Is there any cheese", "There isn&apos;t any cheese"]'>
+                            <td class="border border-gray-300 p-3">10. <input type="text" class="input-gap w-full" placeholder="Type the question..."></td>
+                            <td class="border border-gray-300 p-3">There is some cheese.</td>
+                            <td class="border border-gray-300 p-3"><input type="text" class="input-gap w-full" placeholder="Type the negative sentence..."></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 flex gap-2">
+                <button onclick="checkTableExercise('exercise-31-4')" class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+                <button onclick="showTableAnswers('exercise-31-4')" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Hiện đáp án</button>
+            </div>
+            
+            <!-- Answer Key Table (initially hidden) -->
+            <div id="answer-key-31-4" class="mt-6 hidden">
+                <h3 class="text-lg font-semibold text-green-700 mb-3">🔑 Answer Key</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300 text-sm">
+                        <thead>
+                            <tr class="bg-green-100">
+                                <th class="border border-gray-300 p-3 text-left font-semibold">#</th>
+                                <th class="border border-gray-300 p-3 text-left font-semibold">Question (?)</th>
+                                <th class="border border-gray-300 p-3 text-left font-semibold">Affirmative (+)</th>
+                                <th class="border border-gray-300 p-3 text-left font-semibold">Negative (-)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-green-800">
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">1</td><td class="border border-gray-300 p-3">Is there any salt?</td><td class="border border-gray-300 p-3 font-semibold">There is some salt.</td><td class="border border-gray-300 p-3 font-semibold">There isn't any salt.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">2</td><td class="border border-gray-300 p-3 font-semibold">Is there any wine?</td><td class="border border-gray-300 p-3">There is some wine.</td><td class="border border-gray-300 p-3 font-semibold">There isn't any wine.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">3</td><td class="border border-gray-300 p-3">Are there any burgers?</td><td class="border border-gray-300 p-3 font-semibold">There are some burgers.</td><td class="border border-gray-300 p-3 font-semibold">There aren't any burgers.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">4</td><td class="border border-gray-300 p-3 font-semibold">Are there any cookies?</td><td class="border border-gray-300 p-3">There are some cookies.</td><td class="border border-gray-300 p-3 font-semibold">There aren't any cookies.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">5</td><td class="border border-gray-300 p-3 font-semibold">Are there any pastries?</td><td class="border border-gray-300 p-3 font-semibold">There are some pastries.</td><td class="border border-gray-300 p-3">There aren't any pastries.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">6</td><td class="border border-gray-300 p-3">Is there any bread?</td><td class="border border-gray-300 p-3 font-semibold">There is some bread.</td><td class="border border-gray-300 p-3 font-semibold">There isn't any bread.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">7</td><td class="border border-gray-300 p-3 font-semibold">Is there any rice?</td><td class="border border-gray-300 p-3">There is some rice.</td><td class="border border-gray-300 p-3 font-semibold">There isn't any rice.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">8</td><td class="border border-gray-300 p-3 font-semibold">Is there any butter?</td><td class="border border-gray-300 p-3 font-semibold">There is some butter.</td><td class="border border-gray-300 p-3">There isn't any butter.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">9</td><td class="border border-gray-300 p-3">Are there any pizzas?</td><td class="border border-gray-300 p-3 font-semibold">There are some pizzas.</td><td class="border border-gray-300 p-3 font-semibold">There aren't any pizzas.</td></tr>
+                            <tr class="bg-green-50"><td class="border border-gray-300 p-3">10</td><td class="border border-gray-300 p-3 font-semibold">Is there any cheese?</td><td class="border border-gray-300 p-3">There is some cheese.</td><td class="border border-gray-300 p-3 font-semibold">There isn't any cheese.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 31.6 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313L16.5 7.5m0 2.25L21 7.5M21 7.5v2.25m0 0L18.75 8.438L16.5 9.75m2.25-1.313L21 9.75M21 9.75V12m-18-3l2.25-1.313L7.5 9m0-2.25L5.25 7.5M5.25 7.5v2.25m0 0l2.25-1.313L9.75 9.75M7.5 8.438L5.25 9.75M5.25 9.75V12" /></svg>
+                31.6 FILL IN THE GAPS USING THE WORDS IN THE PANEL
+            </h2>
+            <div class="mb-4 p-4 bg-orange-50 rounded-lg border-l-4 border-orange-400">
+                <h3 class="font-semibold text-orange-800 mb-2">Instructions:</h3>
+                <p class="text-orange-700">Use each word from the panel below only once. Some words may already be used as examples.</p>
+            </div>
+            
+            <div class="word-panel mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p class="font-semibold text-blue-800 mb-2 text-center">Word Panel:</p>
+                <div class="flex flex-wrap justify-center gap-2" id="word-panel-31-6">
+                    <span class="word-chip bg-white border border-blue-300 px-3 py-1 rounded-full text-blue-800 font-medium" data-word="glass">glass</span>
+                    <span class="word-chip bg-white border border-blue-300 px-3 py-1 rounded-full text-blue-800 font-medium" data-word="carton">carton</span>
+                    <span class="word-chip used bg-gray-200 border border-gray-300 px-3 py-1 rounded-full text-gray-500 line-through" data-word="jar">jar</span>
+                    <span class="word-chip bg-white border border-blue-300 px-3 py-1 rounded-full text-blue-800 font-medium" data-word="bowl">bowl</span>
+                    <span class="word-chip bg-white border border-blue-300 px-3 py-1 rounded-full text-blue-800 font-medium" data-word="cups">cups</span>
+                    <span class="word-chip bg-white border border-blue-300 px-3 py-1 rounded-full text-blue-800 font-medium" data-word="bar">bar</span>
+                    <span class="word-chip bg-white border border-blue-300 px-3 py-1 rounded-full text-blue-800 font-medium" data-word="bags">bags</span>
+                    <span class="word-chip bg-white border border-blue-300 px-3 py-1 rounded-full text-blue-800 font-medium" data-word="bottles">bottles</span>
+                </div>
+            </div>
+
+            <div class="space-y-4" id="exercise-31-6">
+                <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                    <span class="text-2xl">🫙</span>
+                    <span class="text-gray-600 font-medium">Example:</span>
+                    <span>There is a <span class="font-bold text-blue-600">jar</span> of coffee.</span>
+                </div>
+                
+                <div class="exercise-item flex items-center gap-4 p-3 rounded-lg transition-colors" data-answer="glass">
+                    <span class="text-2xl">🥛</span>
+                    <span class="font-medium text-gray-700">1.</span>
+                    <span>There's a <input type="text" class="input-gap w-20 mx-2" placeholder="..."> of milk.</span>
+                    <span class="feedback"></span>
+                </div>
+
+                <div class="exercise-item flex items-center gap-4 p-3 rounded-lg transition-colors" data-answer="bags">
+                    <span class="text-2xl">🛍️</span>
+                    <span class="font-medium text-gray-700">2.</span>
+                    <span>There are two <input type="text" class="input-gap w-20 mx-2" placeholder="..."> of rice.</span>
+                    <span class="feedback"></span>
+                </div>
+
+                <div class="exercise-item flex items-center gap-4 p-3 rounded-lg transition-colors" data-answer="bar">
+                    <span class="text-2xl">🍫</span>
+                    <span class="font-medium text-gray-700">3.</span>
+                    <span>There's a <input type="text" class="input-gap w-20 mx-2" placeholder="..."> of chocolate.</span>
+                    <span class="feedback"></span>
+                </div>
+
+                <div class="exercise-item flex items-center gap-4 p-3 rounded-lg transition-colors" data-answer="carton">
+                    <span class="text-2xl">🧃</span>
+                    <span class="font-medium text-gray-700">4.</span>
+                    <span>There's a <input type="text" class="input-gap w-20 mx-2" placeholder="..."> of juice.</span>
+                    <span class="feedback"></span>
+                </div>
+
+                <div class="exercise-item flex items-center gap-4 p-3 rounded-lg transition-colors" data-answer="bottles">
+                    <span class="text-2xl">🍾</span>
+                    <span class="font-medium text-gray-700">5.</span>
+                    <span>There are three <input type="text" class="input-gap w-20 mx-2" placeholder="..."> of water.</span>
+                    <span class="feedback"></span>
+                </div>
+
+                <div class="exercise-item flex items-center gap-4 p-3 rounded-lg transition-colors" data-answer="bowl">
+                    <span class="text-2xl">🥣</span>
+                    <span class="font-medium text-gray-700">6.</span>
+                    <span>There's a <input type="text" class="input-gap w-20 mx-2" placeholder="..."> of pasta.</span>
+                    <span class="feedback"></span>
+                </div>
+
+                <div class="exercise-item flex items-center gap-4 p-3 rounded-lg transition-colors" data-answer="cups">
+                    <span class="text-2xl">☕</span>
+                    <span class="font-medium text-gray-700">7.</span>
+                    <span>There are two <input type="text" class="input-gap w-20 mx-2" placeholder="..."> of tea.</span>
+                    <span class="feedback"></span>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex gap-2">
+                <button onclick="checkPanelExercise('exercise-31-6')" class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+                <button onclick="resetPanelExercise('exercise-31-6')" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Làm lại</button>
+            </div>
+        </div>
+
+        <!-- Exercise 31.7 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
+                 31.7 CROSS OUT THE INCORRECT WORDS
+            </h2>
+            <div class="space-y-3" id="exercise-31-7">
+                 <p>There <span class="option-group" data-correct="are"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> three cartons of milk.</p>
+                 <p>1. There <span class="option-group" data-correct="is"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> a jar of coffee.</p>
+                 <p>2. There <span class="option-group" data-correct="isn't"><span class="option-btn">isn't</span> / <span class="option-btn">aren't</span></span> any rice.</p>
+                 <p>3. There <span class="option-group" data-correct="are"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> two cartons of juice.</p>
+                 <p>4. There <span class="option-group" data-correct="is"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> some meat.</p>
+                 <p>5. There <span class="option-group" data-correct="are"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> two bottles of wine.</p>
+                 <p>6. There <span class="option-group" data-correct="isn't"><span class="option-btn">isn't</span> / <span class="option-btn">aren't</span></span> any bread.</p>
+                 <p>7. There <span class="option-group" data-correct="is"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> a bag of flour.</p>
+                 <p>8. There <span class="option-group" data-correct="is"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> some pasta.</p>
+                 <p>9. There <span class="option-group" data-correct="are"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> two bars of chocolate.</p>
+                 <p>10. There <span class="option-group" data-correct="isn't"><span class="option-btn">isn't</span> / <span class="option-btn">aren't</span></span> any sugar.</p>
+                 <p>11. There <span class="option-group" data-correct="is"><span class="option-btn">is</span> / <span class="option-btn">are</span></span> some butter.</p>
+            </div>
+            <button onclick="checkCrossOut('exercise-31-7')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+        </div>
+
+        <!-- Exercise 31.9 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
+                31.9 FILL IN "MANY" OR "MUCH"
+            </h2>
+             <div class="space-y-3" id="exercise-31-9" data-answers='["much", "many", "many", "much", "much", "many", "many", "much", "many", "much", "many", "much", "many"]'>
+                <p>How <span class="font-bold">much</span> rice is there?</p>
+                <p>1. How <input class="input-gap w-20"> meat is there?</p>
+                <p>2. How <input class="input-gap w-20"> cartons of milk are there?</p>
+                <p>3. How <input class="input-gap w-20"> bowls of rice are there?</p>
+                <p>4. How <input class="input-gap w-20"> juice is there?</p>
+                <p>5. How <input class="input-gap w-20"> bread is there?</p>
+                <p>6. How <input class="input-gap w-20"> cups of tea are there?</p>
+                <p>7. How <input class="input-gap w-20"> bars of chocolate are there?</p>
+                <p>8. How <input class="input-gap w-20"> coffee is there?</p>
+                <p>9. How <input class="input-gap w-20"> jars of jam are there?</p>
+                <p>10. How <input class="input-gap w-20"> milk is there?</p>
+                <p>11. How <input class="input-gap w-20"> bags of flour are there?</p>
+                <p>12. How <input class="input-gap w-20"> pizza is there?</p>
+                <p>13. How <input class="input-gap w-20"> eggs are there?</p>
+             </div>
+             <button onclick="checkFillInTheBlanks('exercise-31-9')" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Kiểm tra</button>
+        </div>
+
+        <!-- Exercise 31.8 -->
+        <div class="exercise-card">
+            <h2 class="exercise-title">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                31.8 FIND NINE WORDS FOR CONTAINERS
+            </h2>
+            <div class="mb-4 p-4 bg-purple-50 rounded-lg border-l-4 border-purple-400">
+                <h3 class="font-semibold text-purple-800 mb-2">How to play:</h3>
+                <ul class="text-purple-700 space-y-1 list-disc list-inside">
+                    <li><strong>Click and drag</strong> to select letters in the grid.</li>
+                    <li>Find words <strong>horizontally, vertically, or diagonally</strong>.</li>
+                    <li>Words can be in <strong>any direction</strong> (forwards or backwards).</li>
+                    <li>Found words will turn <span class="inline-block w-4 h-4 bg-green-500 rounded"></span> <strong>green</strong>.</li>
+                </ul>
+            </div>
+            
+            <div class="word-grid" id="word-grid"></div>
+            
+            <div class="mt-4">
+                <div class="flex flex-wrap justify-center gap-4 mb-4">
+                    <div class="bg-gray-100 p-3 rounded-lg">
+                        <p class="font-semibold text-gray-700 mb-2">Words to find:</p>
+                        <div class="flex flex-wrap gap-2" id="word-list">
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="BOWL">BOWL</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="JAR">JAR</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="BAG">BAG</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="BAR">BAR</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="CARTON">CARTON</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="BOTTLE">BOTTLE</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="CUP">CUP</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="GLASS">GLASS</span>
+                            <span class="word-badge bg-blue-100 text-blue-800" data-word="CAN">CAN</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="mb-4">
+                        <span class="text-lg font-semibold">Found: <span id="found-count" class="text-green-600">0</span>/9</span>
+                    </div>
+                    <div class="flex gap-2 justify-center">
+                        <button id="reset-btn" onclick="resetWordSearch()" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Reset</button>
+                        <button id="show-answers-btn" onclick="showWordSearchAnswers()" class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">Hiện đáp án</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Add click handlers for cross-out exercises ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for exercises 31.2 and 31.7
+            ['exercise-31-2', 'exercise-31-7'].forEach(exerciseId => {
+                const container = document.getElementById(exerciseId);
+                container.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('option-btn')) {
+                        const group = e.target.closest('.option-group');
+                        const buttons = group.querySelectorAll('.option-btn');
+                        
+                        // Remove previous selections
+                        buttons.forEach(btn => {
+                            btn.classList.remove('selected', 'crossed-out');
+                        });
+                        
+                        // Mark the clicked button as selected (to be crossed out)
+                        e.target.classList.add('selected', 'crossed-out');
+                    }
+                });
+            });
+        });
+
+        // --- Generic check function for fill-in-the-blanks ---
+        function checkFillInTheBlanks(exerciseId) {
+            const container = document.getElementById(exerciseId);
+            const answers = JSON.parse(container.dataset.answers);
+            const inputs = container.querySelectorAll('input.input-gap');
+            let correctCount = 0;
+
+            inputs.forEach((input, index) => {
+                const userAnswer = input.value.trim().toLowerCase().replace(/[.!?]$/, '');
+                const correctAnswerSet = answers[index];
+                input.classList.remove('correct', 'incorrect');
+
+                let isCorrect = false;
+                if (Array.isArray(correctAnswerSet)) {
+                    if (correctAnswerSet.map(a => a.toLowerCase()).includes(userAnswer)) {
+                        isCorrect = true;
+                    }
+                } else {
+                    if (userAnswer === correctAnswerSet.toLowerCase()) {
+                        isCorrect = true;
+                    }
+                }
+                
+                if (isCorrect) {
+                    input.classList.add('correct');
+                    correctCount++;
+                } else {
+                    input.classList.add('incorrect');
+                }
+            });
+
+            // Show result message
+            showResult(exerciseId, correctCount, inputs.length);
+        }
+        
+        // --- Function for 31.1 Grouping ---
+        function checkGrouping(exerciseId) {
+             const container = document.getElementById(exerciseId);
+             const answers = JSON.parse(container.dataset.answers);
+             const countableInputs = container.querySelectorAll('div:first-child input');
+             const uncountableInputs = container.querySelectorAll('div:last-child input');
+             let correctCount = 0;
+             const totalInputs = countableInputs.length + uncountableInputs.length;
+             
+             countableInputs.forEach(input => {
+                 const val = input.value.trim().toLowerCase();
+                 input.classList.remove('correct', 'incorrect');
+                 if(answers.countable.includes(val)){
+                     input.classList.add('correct');
+                     correctCount++;
+                 } else if (val !== '') {
+                     input.classList.add('incorrect');
+                 }
+             });
+
+             uncountableInputs.forEach(input => {
+                 const val = input.value.trim().toLowerCase();
+                 input.classList.remove('correct', 'incorrect');
+                 if(answers.uncountable.includes(val)){
+                     input.classList.add('correct');
+                     correctCount++;
+                 } else if (val !== '') {
+                     input.classList.add('incorrect');
+                 }
+             });
+
+             showResult(exerciseId, correctCount, totalInputs);
+        }
+
+        // --- Logic for Cross Out Exercises ---
+        function checkCrossOut(exerciseId) {
+            const container = document.getElementById(exerciseId);
+            const groups = container.querySelectorAll('.option-group');
+            let correctCount = 0;
+
+            groups.forEach(group => {
+                const correctAnswer = group.dataset.correct;
+                const buttons = group.querySelectorAll('.option-btn');
+                const selectedButton = group.querySelector('.option-btn.selected');
+                
+                // Reset all buttons
+                buttons.forEach(btn => {
+                    btn.classList.remove('correct-answer', 'crossed-out');
+                });
+
+                // Find and highlight the correct answer
+                const correctButton = Array.from(buttons).find(btn => 
+                    btn.textContent.trim() === correctAnswer
+                );
+                if (correctButton) {
+                    correctButton.classList.add('correct-answer');
+                }
+
+                // Check if user selected the wrong option (which should be crossed out)
+                if (selectedButton && selectedButton !== correctButton) {
+                    selectedButton.classList.add('crossed-out');
+                    correctCount++;
+                } else if (selectedButton === correctButton) {
+                    // User selected the correct answer to cross out - this is wrong
+                    // The correct answer should not be crossed out
+                }
+            });
+
+            showResult(exerciseId, correctCount, groups.length);
+        }
+
+        // --- Function for 31.4 Table Exercise ---
+        function checkTableExercise(exerciseId) {
+            const container = document.getElementById(exerciseId);
+            const rows = container.querySelectorAll('tbody tr[data-answers]');
+            let correctCount = 0;
+            let totalInputs = 0;
+
+            rows.forEach(row => {
+                const answers = JSON.parse(row.dataset.answers);
+                const inputs = row.querySelectorAll('input.input-gap');
+                
+                inputs.forEach((input, index) => {
+                    const userAnswer = input.value.trim().toLowerCase().replace(/[.!?]$/, '');
+                    const correctAnswer = answers[index];
+                    input.classList.remove('correct', 'incorrect');
+                    totalInputs++;
+
+                    if (userAnswer === correctAnswer.toLowerCase()) {
+                        input.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        input.classList.add('incorrect');
+                    }
+                });
+            });
+
+            showResult(exerciseId, correctCount, totalInputs);
+        }
+
+        // --- Function to show table answers ---
+        function showTableAnswers(exerciseId) {
+            const answerKeyId = 'answer-key-' + exerciseId.split('-')[1] + '-' + exerciseId.split('-')[2];
+            const answerKey = document.getElementById(answerKeyId);
+            const button = event.target;
+            
+            if (answerKey.classList.contains('hidden')) {
+                answerKey.classList.remove('hidden');
+                button.textContent = 'Ẩn đáp án';
+                button.classList.remove('bg-green-500', 'hover:bg-green-600');
+                button.classList.add('bg-gray-500', 'hover:bg-gray-600');
+            } else {
+                answerKey.classList.add('hidden');
+                button.textContent = 'Hiện đáp án';
+                button.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                button.classList.add('bg-green-500', 'hover:bg-green-600');
+            }
+        }
+
+        // --- Function for 31.6 Panel Exercise ---
+        function checkPanelExercise(exerciseId) {
+            const container = document.getElementById(exerciseId);
+            const items = container.querySelectorAll('.exercise-item');
+            let correctCount = 0;
+            const usedWords = new Set();
+
+            items.forEach(item => {
+                const input = item.querySelector('input.input-gap');
+                const feedback = item.querySelector('.feedback');
+                const correctAnswer = item.dataset.answer;
+                const userAnswer = input.value.trim().toLowerCase();
+                
+                input.classList.remove('correct', 'incorrect');
+                item.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+                feedback.className = 'feedback';
+
+                if (userAnswer === correctAnswer.toLowerCase()) {
+                    if (!usedWords.has(userAnswer)) {
+                        input.classList.add('correct');
+                        item.classList.add('correct');
+                        feedback.textContent = '✓';
+                        feedback.className = 'feedback correct';
+                        correctCount++;
+                        usedWords.add(userAnswer);
+                        
+                        // Mark word as used in panel
+                        const wordChip = document.querySelector(`[data-word="${userAnswer}"]`);
+                        if (wordChip) {
+                            wordChip.classList.add('used');
+                        }
+                    } else {
+                        input.classList.add('incorrect');
+                        item.classList.add('incorrect');
+                        feedback.textContent = '⚠️ Word already used';
+                        feedback.className = 'feedback incorrect';
+                    }
+                } else if (userAnswer !== '') {
+                    input.classList.add('incorrect');
+                    item.classList.add('incorrect');
+                    feedback.textContent = '✗';
+                    feedback.className = 'feedback incorrect';
+                }
+            });
+
+            showResult(exerciseId, correctCount, items.length);
+        }
+
+        function resetPanelExercise(exerciseId) {
+            const container = document.getElementById(exerciseId);
+            const items = container.querySelectorAll('.exercise-item');
+            
+            items.forEach(item => {
+                const input = item.querySelector('input.input-gap');
+                const feedback = item.querySelector('.feedback');
+                
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+                item.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+                feedback.className = 'feedback';
+            });
+
+            // Reset word panel (except jar which is example)
+            document.querySelectorAll('.word-chip').forEach(chip => {
+                if (chip.dataset.word !== 'jar') {
+                    chip.classList.remove('used');
+                }
+            });
+
+            // Remove result message
+            const resultDiv = container.querySelector('.result-message');
+            if (resultDiv) {
+                resultDiv.remove();
+            }
+        }
+
+        // --- Show result message ---
+        function showResult(exerciseId, correct, total) {
+            const container = document.getElementById(exerciseId);
+            let resultDiv = container.querySelector('.result-message');
+            
+            if (!resultDiv) {
+                resultDiv = document.createElement('div');
+                resultDiv.className = 'result-message mt-3 p-3 rounded-md text-center font-semibold';
+                container.appendChild(resultDiv);
+            }
+
+            const percentage = Math.round((correct / total) * 100);
+            
+            if (percentage === 100) {
+                resultDiv.className = 'result-message mt-3 p-3 rounded-md text-center font-semibold bg-green-100 text-green-800';
+                resultDiv.textContent = `🎉 Hoàn hảo! ${correct}/${total} đúng!`;
+            } else if (percentage >= 70) {
+                resultDiv.className = 'result-message mt-3 p-3 rounded-md text-center font-semibold bg-blue-100 text-blue-800';
+                resultDiv.textContent = `👍 Tốt lắm! ${correct}/${total} đúng (${percentage}%)`;
+            } else {
+                resultDiv.className = 'result-message mt-3 p-3 rounded-md text-center font-semibold bg-yellow-100 text-yellow-800';
+                resultDiv.textContent = `💪 Cố gắng thêm! ${correct}/${total} đúng (${percentage}%)`;
+            }
+        }
+
+        // --- Logic for 31.8 Word Search ---
+        const gridContainer = document.getElementById('word-grid');
+        const letters = "KPDABOWLYMTWOKONSSJNEACYTPSBOEEJYMTALTGJHVAKLURASGEGAGEABZIBSRYDCDEEHNQNWAGLDBZEEATLMXIMTOEEALRYTKCSSRSCIDQSJARAQUYEZDWNHPXOECCNNCKBTIBARKDJYRWNGRMSLO".replace(/ /g, '');
+        let gridHTML = '';
+        for (let i = 0; i < letters.length; i++) {
+            gridHTML += `<span id="cell-${i}" data-index="${i}">${letters[i]}</span>`;
+        }
+        if (gridContainer) {
+            gridContainer.innerHTML = gridHTML;
+        }
+        
+        const wordSearchAnswers = {
+            BOWL: [3, 4, 5, 6],
+            JAR: [116, 106, 96],
+            BAG: [55, 65, 75],
+            BAR: [136, 135, 134],
+            CUP: [22, 32, 42],
+            CAN: [128, 118, 108],
+            GLASS: [38, 48, 58, 24, 14],
+            CARTON: [23, 33, 43, 53, 63, 127],
+            BOTTLE: [5, 15, 25, 35, 88, 98],
+        };
+
+        // Word search interaction variables
+        let isSelecting = false;
+        let selectedCells = [];
+        let foundWords = new Set();
+
+        // Add word search interaction
+        if (gridContainer) {
+            let startCell = null;
+
+            gridContainer.addEventListener('mousedown', function(e) {
+                if (e.target.tagName === 'SPAN') {
+                    isSelecting = true;
+                    startCell = e.target;
+                    selectedCells = [parseInt(e.target.dataset.index)];
+                    updateSelection();
+                    e.preventDefault();
+                }
+            });
+
+            gridContainer.addEventListener('mouseover', function(e) {
+                if (isSelecting && e.target.tagName === 'SPAN') {
+                    const endCell = e.target;
+                    selectedCells = getLinePath(startCell, endCell);
+                    updateSelection();
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isSelecting) {
+                    checkSelectedWord();
+                    clearSelection();
+                    isSelecting = false;
+                    startCell = null;
+                }
+            });
+        }
+
+        function getLinePath(startCell, endCell) {
+            const startIndex = parseInt(startCell.dataset.index);
+            const endIndex = parseInt(endCell.dataset.index);
+            
+            const startRow = Math.floor(startIndex / 10);
+            const startCol = startIndex % 10;
+            const endRow = Math.floor(endIndex / 10);
+            const endCol = endIndex % 10;
+            
+            const path = [];
+            const deltaRow = endRow - startRow;
+            const deltaCol = endCol - startCol;
+            
+            // Check if it's a valid line (horizontal, vertical, or diagonal)
+            if (deltaRow === 0 || deltaCol === 0 || Math.abs(deltaRow) === Math.abs(deltaCol)) {
+                const steps = Math.max(Math.abs(deltaRow), Math.abs(deltaCol));
+                const stepRow = steps === 0 ? 0 : deltaRow / steps;
+                const stepCol = steps === 0 ? 0 : deltaCol / steps;
+                
+                for (let i = 0; i <= steps; i++) {
+                    const row = startRow + i * stepRow;
+                    const col = startCol + i * stepCol;
+                    path.push(row * 10 + col);
+                }
+            } else {
+                path.push(startIndex);
+            }
+            
+            return path;
+        }
+
+        function updateSelection() {
+            gridContainer.querySelectorAll('span').forEach(cell => {
+                cell.classList.remove('selected');
+            });
+            
+            selectedCells.forEach(index => {
+                const cell = document.getElementById(`cell-${index}`);
+                if (cell && !cell.classList.contains('found')) {
+                    cell.classList.add('selected');
+                }
+            });
+        }
+
+        function clearSelection() {
+            gridContainer.querySelectorAll('span').forEach(cell => {
+                // Only remove 'selected' class, keep 'found' class for found words
+                cell.classList.remove('selected');
+            });
+            selectedCells = [];
+        }
+
+        function checkSelectedWord() {
+            if (selectedCells.length < 2) return;
+            
+            // Get the word formed by selected cells
+            const selectedWord = selectedCells.map(index => letters[index]).join('');
+            const reversedWord = selectedWord.split('').reverse().join('');
+            
+            let wordFound = false;
+            
+            // Check if it matches any target word
+            Object.entries(wordSearchAnswers).forEach(([word, positions]) => {
+                if ((selectedWord === word || reversedWord === word) && 
+                    arraysEqual(selectedCells.sort((a,b) => a-b), positions.sort((a,b) => a-b))) {
+                    markWordFound(word, positions);
+                    wordFound = true;
+                }
+            });
+            
+            // If no word found, show visual feedback for incorrect selection
+            if (!wordFound && selectedCells.length >= 3) {
+                showIncorrectSelection();
+            }
+        }
+
+        function showIncorrectSelection() {
+            // Briefly highlight selected cells in red to show it's incorrect
+            selectedCells.forEach(index => {
+                const cell = document.getElementById(`cell-${index}`);
+                if (cell && !cell.classList.contains('found')) {
+                    cell.style.backgroundColor = '#fee2e2';
+                    cell.style.color = '#b91c1c';
+                    setTimeout(() => {
+                        if (!cell.classList.contains('found')) {
+                            cell.style.backgroundColor = '';
+                            cell.style.color = '';
+                        }
+                    }, 500);
+                }
+            });
+        }
+
+        function markWordFound(word, positions) {
+            if (foundWords.has(word)) return;
+            
+            foundWords.add(word);
+            
+            // Mark cells as found
+            positions.forEach(index => {
+                const cell = document.getElementById(`cell-${index}`);
+                if (cell) {
+                    cell.classList.add('found');
+                    cell.classList.remove('selected');
+                }
+            });
+            
+            // Mark word badge as found
+            const wordBadge = document.querySelector(`[data-word="${word}"]`);
+            if (wordBadge) {
+                wordBadge.classList.add('found');
+            }
+            
+            // Update found count
+            document.getElementById('found-count').textContent = foundWords.size;
+            
+            // Check if all words found
+            if (foundWords.size === 9) {
+                setTimeout(() => {
+                    alert('🎉 Congratulations! You found all 9 words!');
+                }, 100);
+            }
+        }
+
+        function arraysEqual(a, b) {
+            return a.length === b.length && a.every((val, index) => val === b[index]);
+        }
+
+        function resetWordSearch() {
+            foundWords.clear();
+            gridContainer.querySelectorAll('span').forEach(cell => {
+                cell.classList.remove('found', 'selected', 'highlight');
+            });
+            document.querySelectorAll('.word-badge').forEach(badge => {
+                badge.classList.remove('found');
+            });
+            document.getElementById('found-count').textContent = '0';
+            
+            const btn = document.getElementById('show-answers-btn');
+            if (btn) {
+                btn.textContent = "Hiện đáp án";
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+         
+        function showWordSearchAnswers() {
+            if (!gridContainer) return;
+            
+            gridContainer.querySelectorAll('span').forEach(cell => cell.classList.remove('highlight'));
+            
+            Object.entries(wordSearchAnswers).forEach(([word, positions]) => {
+                positions.forEach(cellIndex => {
+                    const cell = document.getElementById(`cell-${cellIndex}`);
+                    if (cell) cell.classList.add('highlight');
+                });
+                
+                // Mark word badge as found
+                const wordBadge = document.querySelector(`[data-word="${word}"]`);
+                if (wordBadge) {
+                    wordBadge.classList.add('found');
+                }
+            });
+            
+            document.getElementById('found-count').textContent = '9';
+            
+            const btn = document.getElementById('show-answers-btn');
+            if (btn) {
+                btn.textContent = "Đã hiện đáp án";
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+    </script>
+
+</body>
+</html>
